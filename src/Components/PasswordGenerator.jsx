@@ -44,14 +44,14 @@ function PasswordGenerator() {
                             <div className="left">
                                 <div className="checkbox-field">
                                     <input type="checkbox" name="lower" id="lower" checked disabled />
-                                    <label htmlFor="lower">Include LowerCase(a-z)</label>
+                                    <label htmlFor="lower">Incluir Minúsculas (a-z)</label>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div className="buttons">
-                    <button type='button' onClick={generatePassword}>Generate Password</button>
+                    <button type='button' onClick={generatePassword}>Gerar Senha</button>
                 </div>
             </div>
             <ToastContainer />
