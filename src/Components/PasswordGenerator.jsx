@@ -3,10 +3,12 @@ import './PasswordGenerator.css';
 import { ToastContainer } from 'react-toastify';
 
 const lowercaseList = 'abcdefghijklmnopqrstuvwxyz';
+const uppercaseList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 function PasswordGenerator() {
 
     const [password, setPassword] = useState('');
+    const [uppercase, setUppercase] = useState(false);
     const passwordLength = 10; // Tamanho fixo da senha
 
     useEffect(() => {
@@ -14,7 +16,9 @@ function PasswordGenerator() {
     },[]);
 
     const generatePassword = () => {
-        const characterList = lowercaseList;
+        let characterList = lowercaseList;
+        if(uppercase) characterList += uppercaseList;
+        
         let tempPassword = '';
         const characterListLength = characterList.length;
 
@@ -45,6 +49,19 @@ function PasswordGenerator() {
                                 <div className="checkbox-field">
                                     <input type="checkbox" name="lower" id="lower" checked disabled />
                                     <label htmlFor="lower">Incluir Minúsculas (a-z)</label>
+                                </div>
+                                <div className="checkbox-field">
+                                    <input 
+                                        type="checkbox" 
+                                        name="upper" 
+                                        id="upper" 
+                                        checked={uppercase}
+                                        onChange={(e) => {
+                                            setUppercase(e.target.checked);
+                                            setTimeout(generatePassword, 100);
+                                        }}
+                                    />
+                                    <label htmlFor="upper">Incluir Maiúsculas (A-Z)</label>
                                 </div>
                             </div>
                         </div>
