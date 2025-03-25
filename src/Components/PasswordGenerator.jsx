@@ -5,12 +5,14 @@ import { ToastContainer } from 'react-toastify';
 const lowercaseList = 'abcdefghijklmnopqrstuvwxyz';
 const numberList = '0123456789';
 const symbolsList = "!@#$%^&*()_+-=[]{}|;:,.<>?";
+const uppercaseList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 function PasswordGenerator() {
 
     const [password, setPassword] = useState('');
     const [number, setNumber] = useState(true);
     const [includeSymbols, setIncludeSymbols] = useState(false);
+    const [uppercase, setUppercase] = useState(false);
     const passwordLength = 10;
 
     useEffect(() => {
@@ -24,6 +26,9 @@ function PasswordGenerator() {
         }
         if (includeSymbols) {
             characterList += symbolsList;
+        }
+        if (uppercase) {
+            characterList += uppercaseList;
         }
         let tempPassword = '';
         const characterListLength = characterList.length;
@@ -69,6 +74,19 @@ function PasswordGenerator() {
                                 <div className="checkbox-field">
                                     <input type="checkbox" name="number" id="number" checked={number} onChange={(e) => setNumber(e.target.checked)} />
                                     <label htmlFor="number">Incluir Números (0-9)</label>
+                                </div>
+                                <div className="checkbox-field">
+                                    <input 
+                                        type="checkbox" 
+                                        name="upper" 
+                                        id="upper" 
+                                        checked={uppercase}
+                                        onChange={(e) => {
+                                            setUppercase(e.target.checked);
+                                            setTimeout(generatePassword, 100);
+                                        }}
+                                    />
+                                    <label htmlFor="upper">Incluir Maiúsculas (A-Z)</label>
                                 </div>
                             </div>
                         </div>
