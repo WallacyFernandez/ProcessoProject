@@ -3,13 +3,17 @@ import './PasswordGenerator.css';
 import { ToastContainer } from 'react-toastify';
 
 const lowercaseList = 'abcdefghijklmnopqrstuvwxyz';
+const numberList = '0123456789';
+const symbolsList = "!@#$%^&*()_+-=[]{}|;:,.<>?";
 const uppercaseList = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 function PasswordGenerator() {
 
     const [password, setPassword] = useState('');
+    const [number, setNumber] = useState(true);
+    const [includeSymbols, setIncludeSymbols] = useState(false);
     const [uppercase, setUppercase] = useState(false);
-    const passwordLength = 10; // Tamanho fixo da senha
+    const passwordLength = 10;
 
     useEffect(() => {
         generatePassword();
@@ -17,8 +21,15 @@ function PasswordGenerator() {
 
     const generatePassword = () => {
         let characterList = lowercaseList;
-        if(uppercase) characterList += uppercaseList;
-        
+        if (number) {
+            characterList += numberList;
+        }
+        if (includeSymbols) {
+            characterList += symbolsList;
+        }
+        if (uppercase) {
+            characterList += uppercaseList;
+        }
         let tempPassword = '';
         const characterListLength = characterList.length;
 
@@ -49,6 +60,20 @@ function PasswordGenerator() {
                                 <div className="checkbox-field">
                                     <input type="checkbox" name="lower" id="lower" checked disabled />
                                     <label htmlFor="lower">Incluir Minúsculas (a-z)</label>
+                                </div>
+                                <div className="checkbox-field">
+                                    <input 
+                                        type="checkbox" 
+                                        name="symbols" 
+                                        id="symbols" 
+                                        checked={includeSymbols}
+                                        onChange={(e) => setIncludeSymbols(e.target.checked)}
+                                    />
+                                    <label htmlFor="symbols">Incluir Símbolos (&-#)</label>
+                                </div>
+                                <div className="checkbox-field">
+                                    <input type="checkbox" name="number" id="number" checked={number} onChange={(e) => setNumber(e.target.checked)} />
+                                    <label htmlFor="number">Incluir Números (0-9)</label>
                                 </div>
                                 <div className="checkbox-field">
                                     <input 
