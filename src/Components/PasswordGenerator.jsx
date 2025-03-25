@@ -3,13 +3,15 @@ import './PasswordGenerator.css';
 import { ToastContainer } from 'react-toastify';
 
 const lowercaseList = 'abcdefghijklmnopqrstuvwxyz';
+const numberList = '0123456789';
 const symbolsList = "!@#$%^&*()_+-=[]{}|;:,.<>?";
 
 function PasswordGenerator() {
 
     const [password, setPassword] = useState('');
+    const [number, setNumber] = useState(true);
     const [includeSymbols, setIncludeSymbols] = useState(false);
-    const passwordLength = 10; // Tamanho fixo da senha
+    const passwordLength = 10;
 
     useEffect(() => {
         generatePassword();
@@ -17,13 +19,17 @@ function PasswordGenerator() {
 
     const generatePassword = () => {
         let characterList = lowercaseList;
-        if (includeSymbols) characterList += symbolsList;
-        
+        if (number) {
+            characterList += numberList;
+        }
+        if (includeSymbols) {
+            characterList += symbolsList;
+        }
         let tempPassword = '';
         const characterListLength = characterList.length;
 
         for (let i = 0; i < passwordLength; i++) {
-            const characterIndex = Math.round(Math.random() * (characterListLength - 1));
+            const characterIndex = Math.round(Math.random() * characterListLength);
             tempPassword += characterList.charAt(characterIndex);
         }
 
@@ -59,6 +65,10 @@ function PasswordGenerator() {
                                         onChange={(e) => setIncludeSymbols(e.target.checked)}
                                     />
                                     <label htmlFor="symbols">Incluir Símbolos (&-#)</label>
+                                </div>
+                                <div className="checkbox-field">
+                                    <input type="checkbox" name="number" id="number" checked={number} onChange={(e) => setNumber(e.target.checked)} />
+                                    <label htmlFor="number">Incluir Números (0-9)</label>
                                 </div>
                             </div>
                         </div>
