@@ -4,10 +4,13 @@ import { ToastContainer } from 'react-toastify';
 
 const lowercaseList = 'abcdefghijklmnopqrstuvwxyz';
 const numberList = '0123456789';
+const symbolsList = "!@#$%^&*()_+-=[]{}|;:,.<>?";
 
 function PasswordGenerator() {
+
     const [password, setPassword] = useState('');
     const [number, setNumber] = useState(true);
+    const [includeSymbols, setIncludeSymbols] = useState(false);
     const passwordLength = 10;
 
     useEffect(() => {
@@ -18,6 +21,9 @@ function PasswordGenerator() {
         let characterList = lowercaseList;
         if (number) {
             characterList += numberList;
+        }
+        if (includeSymbols) {
+            characterList += symbolsList;
         }
         let tempPassword = '';
         const characterListLength = characterList.length;
@@ -49,6 +55,16 @@ function PasswordGenerator() {
                                 <div className="checkbox-field">
                                     <input type="checkbox" name="lower" id="lower" checked disabled />
                                     <label htmlFor="lower">Incluir Minúsculas (a-z)</label>
+                                </div>
+                                <div className="checkbox-field">
+                                    <input 
+                                        type="checkbox" 
+                                        name="symbols" 
+                                        id="symbols" 
+                                        checked={includeSymbols}
+                                        onChange={(e) => setIncludeSymbols(e.target.checked)}
+                                    />
+                                    <label htmlFor="symbols">Incluir Símbolos (&-#)</label>
                                 </div>
                                 <div className="checkbox-field">
                                     <input type="checkbox" name="number" id="number" checked={number} onChange={(e) => setNumber(e.target.checked)} />
