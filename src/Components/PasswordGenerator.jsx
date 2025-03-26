@@ -98,50 +98,42 @@ function PasswordGenerator() {
           <h3>Configuração da senha</h3>
           <div className="customize">
             <div className="checkboxes">
-              <div className="left">
-                <div className="checkbox-field">
-                  <input
-                    type="checkbox"
-                    name="lower"
-                    id="lower"
-                    checked
-                    disabled
-                  />
-                  <label htmlFor="lower">Incluir Minúsculas (a-z)</label>
-                </div>
-                <div className="checkbox-field">
-                  <input
-                    type="checkbox"
-                    name="symbols"
-                    id="symbols"
-                    checked={includeSymbols}
-                    onChange={(e) => setIncludeSymbols(e.target.checked)}
-                  />
-                  <label htmlFor="symbols">Incluir Símbolos (&-#)</label>
-                </div>
-                <div className="checkbox-field">
-                  <input
-                    type="checkbox"
-                    name="number"
-                    id="number"
-                    checked={number}
-                    onChange={(e) => setNumber(e.target.checked)}
-                  />
-                  <label htmlFor="number">Incluir Números (0-9)</label>
-                </div>
-                <div className="checkbox-field">
-                  <input
-                    type="checkbox"
-                    name="upper"
-                    id="upper"
-                    checked={uppercase}
-                    onChange={(e) => {
-                      setUppercase(e.target.checked);
-                      setTimeout(() => generatePassword(false), 100);
-                    }}
-                  />
-                  <label htmlFor="upper">Incluir Maiúsculas (A-Z)</label>
-                </div>
+              <div className="checkbox-field">
+                <input type="checkbox" name="lower" id="lower" checked disabled />
+                <label htmlFor="lower">Incluir Minúsculas (a-z)</label>
+              </div>
+              <div className="checkbox-field">
+                <input
+                  type="checkbox"
+                  name="upper"
+                  id="upper"
+                  checked={uppercase}
+                  onChange={(e) => {
+                    setUppercase(e.target.checked);
+                    setTimeout(() => generatePassword(false), 100);
+                  }}
+                />
+                <label htmlFor="upper">Incluir Maiúsculas (A-Z)</label>
+              </div>
+              <div className="checkbox-field">
+                <input
+                  type="checkbox"
+                  name="number"
+                  id="number"
+                  checked={number}
+                  onChange={(e) => setNumber(e.target.checked)}
+                />
+                <label htmlFor="number">Incluir Números (0-9)</label>
+              </div>
+              <div className="checkbox-field">
+                <input
+                  type="checkbox"
+                  name="symbols"
+                  id="symbols"
+                  checked={includeSymbols}
+                  onChange={(e) => setIncludeSymbols(e.target.checked)}
+                />
+                <label htmlFor="symbols">Incluir Símbolos (&-#)</label>
               </div>
             </div>
           </div>
@@ -169,7 +161,7 @@ function PasswordGenerator() {
                     <div className="history-list">
                         {passwordHistory.length > 0 ? (
                             filteredHistory.length > 0 ? (
-                                filteredHistory.map((historyPassword, index) => (
+                                [...filteredHistory].reverse().map((historyPassword, index) => (
                                     <div key={index} className="history-item">
                                         <span>{historyPassword}</span>
                                     </div>
