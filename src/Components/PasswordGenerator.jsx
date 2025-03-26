@@ -9,16 +9,18 @@ const uppercaseList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 function PasswordGenerator() {
   const [password, setPassword] = useState("");
+    const [passwordHistory, setPasswordHistory] = useState([]);
   const [number, setNumber] = useState(true);
   const [includeSymbols, setIncludeSymbols] = useState(false);
   const [uppercase, setUppercase] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
   const passwordLength = 10;
 
   useEffect(() => {
-    generatePassword();
+    generatePassword(false);
   }, []);
 
-  const generatePassword = () => {
+  const generatePassword = (addToHistory = false) => {
     let characterList = lowercaseList;
     if (number) {
       characterList += numberList;
@@ -38,6 +40,10 @@ function PasswordGenerator() {
     }
 
     setPassword(tempPassword);
+        
+        if (addToHistory) {
+            setPasswordHistory(prevHistory => [...prevHistory, tempPassword]);
+        }
   };
 
   const copyPassword = () => {
@@ -64,6 +70,10 @@ function PasswordGenerator() {
         });
       });
   };
+
+    const filteredHistory = passwordHistory.filter(historyPassword => 
+        historyPassword.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   return (
     <>
@@ -127,7 +137,7 @@ function PasswordGenerator() {
                     checked={uppercase}
                     onChange={(e) => {
                       setUppercase(e.target.checked);
-                      setTimeout(generatePassword, 100);
+                      setTimeout(() => generatePassword(false), 100);
                     }}
                   />
                   <label htmlFor="upper">Incluir Maiúsculas (A-Z)</label>
@@ -137,12 +147,44 @@ function PasswordGenerator() {
           </div>
         </div>
         <div className="buttons">
-          <button type="button" onClick={generatePassword}>
+          <button type="button" onClick={() => generatePassword(true)}>
             Gerar Senha
           </button>
           <button type="button" onClick={copyPassword}>
             Copiar Senha
           </button>
+                </div>
+                
+                <div className="password-history">
+                    <h3>Histórico de Senhas</h3>
+                    <div className="search-container">
+                        <input 
+                            type="text" 
+                            placeholder="Buscar no histórico..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="search-input"
+                        />
+                    </div>
+                    <div className="history-list">
+                        {passwordHistory.length > 0 ? (
+                            filteredHistory.length > 0 ? (
+                                filteredHistory.map((historyPassword, index) => (
+                                    <div key={index} className="history-item">
+                                        <span>{historyPassword}</span>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="empty-history">
+                                    <span>Nenhuma senha encontrada para "{searchTerm}"</span>
+                                </div>
+                            )
+                        ) : (
+                            <div className="empty-history">
+                                <span>Nenhuma senha gerada ainda. Clique em "Gerar Senha" para começar.</span>
+                            </div>
+                        )}
+                    </div>
         </div>
       </div>
       <ToastContainer />
