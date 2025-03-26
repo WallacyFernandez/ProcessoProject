@@ -14,6 +14,7 @@ function PasswordGenerator() {
     const [number, setNumber] = useState(true);
     const [includeSymbols, setIncludeSymbols] = useState(false);
     const [uppercase, setUppercase] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     const passwordLength = 10;
 
     useEffect(() => {
@@ -45,6 +46,10 @@ function PasswordGenerator() {
             setPasswordHistory(prevHistory => [...prevHistory, tempPassword]);
         }
     }
+
+    const filteredHistory = passwordHistory.filter(historyPassword => 
+        historyPassword.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <>
@@ -103,13 +108,28 @@ function PasswordGenerator() {
                 
                 <div className="password-history">
                     <h3>Histórico de Senhas</h3>
+                    <div className="search-container">
+                        <input 
+                            type="text" 
+                            placeholder="Buscar no histórico..." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="search-input"
+                        />
+                    </div>
                     <div className="history-list">
                         {passwordHistory.length > 0 ? (
-                            passwordHistory.map((historyPassword, index) => (
-                                <div key={index} className="history-item">
-                                    <span>{historyPassword}</span>
+                            filteredHistory.length > 0 ? (
+                                filteredHistory.map((historyPassword, index) => (
+                                    <div key={index} className="history-item">
+                                        <span>{historyPassword}</span>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="empty-history">
+                                    <span>Nenhuma senha encontrada para "{searchTerm}"</span>
                                 </div>
-                            ))
+                            )
                         ) : (
                             <div className="empty-history">
                                 <span>Nenhuma senha gerada ainda. Clique em "Gerar Senha" para começar.</span>
