@@ -14,7 +14,7 @@ function PasswordGenerator() {
   const [includeSymbols, setIncludeSymbols] = useState(false);
   const [uppercase, setUppercase] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
-  const passwordLength = 10;
+  const [passwordLength, setPasswordLength] = useState(8);
 
   useEffect(() => {
     generatePassword(false);
@@ -135,6 +135,19 @@ function PasswordGenerator() {
                 />
                 <label htmlFor="symbols">Incluir Símbolos (&-#)</label>
               </div>
+            </div>
+          </div>
+          
+          <div className="slider">
+            <div className="rangeValue">{passwordLength}</div>
+            <div className="range">
+              <input 
+                type="range" 
+                min="8" 
+                max="40" 
+                value={passwordLength} 
+                onChange={(e) => setPasswordLength(parseInt(e.target.value))}
+              />
             </div>
           </div>
         </div>
